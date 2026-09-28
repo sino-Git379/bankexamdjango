@@ -1,0 +1,17 @@
+{% extends 'bankapp/base.html' %}
+{% block title %}Your cards{% endblock %}
+{% block content %}
+    <h1>Your cards</h1>
+    <p><a href="{% url 'card-create' %}">Create card</a></p>
+    {% for card in cards %}
+        <article>
+            <h2>Card ending {{ card.card_number|slice:'-4:' }}</h2>
+            <p>{{ card.get_type_display }} · {{ card.balance }}</p>
+            <a href="{% url 'card-detail' card.pk %}">Details</a>
+            <a href="{% url 'card-update' card.pk %}">Edit</a>
+            <a href="{% url 'card-delete' card.pk %}">Delete</a>
+        </article>
+    {% empty %}
+        <p>No cards yet.</p>
+    {% endfor %}
+{% endblock %}

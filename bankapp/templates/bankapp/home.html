@@ -1,0 +1,15 @@
+{% extends 'bankapp/base.html' %}
+{% block title %}Simple Bank{% endblock %}
+{% block content %}
+    <h1>Simple Bank</h1>
+    {% if user.is_authenticated %}
+        {% if user.account %}
+            <p>Welcome, {{ user.account.first_name }}.</p>
+            <p><a href="{% url 'account-detail' %}">Open your account</a></p>
+        {% else %}
+            <p><a href="{% url 'account-create' %}">Create your account</a></p>
+        {% endif %}
+    {% else %}
+        <p><a href="{% url 'register' %}">Register</a> or <a href="{% url 'login' %}">log in</a>.</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Simple Bank{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <a href="{% url 'home' %}">Simple Bank</a>
+        {% if user.is_authenticated %}
+            <nav>
+                <a href="{% url 'account-detail' %}">Account</a>
+                <a href="{% url 'card-list' %}">Cards</a>
+                <a href="{% url 'transfer' %}">Transfer</a>
+                <a href="{% url 'transaction-history' %}">Transactions</a>
+                <a href="{% url 'check-phone' %}">Check phone</a>
+                <a href="{% url 'check-card' %}">Check card</a>
+                <form method="post" action="{% url 'logout' %}" style="display:inline">
+                    {% csrf_token %}
+                    <button type="submit">Log out</button>
+                </form>
+            </nav>
+        {% else %}
+            <nav>
+                <a href="{% url 'login' %}">Log in</a>
+                <a href="{% url 'register' %}">Register</a>
+            </nav>
+        {% endif %}
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

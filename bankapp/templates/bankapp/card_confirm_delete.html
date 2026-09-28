@@ -1,0 +1,10 @@
+{% extends 'bankapp/base.html' %}
+{% block title %}Delete card{% endblock %}
+{% block content %}
+    <h1>Delete card ending {{ object.card_number|slice:'-4:' }}?</h1>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Delete card</button>
+        <a href="{% url 'card-list' %}">Cancel</a>
+    </form>
+{% endblock %}
