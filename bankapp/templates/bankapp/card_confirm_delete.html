@@ -1,10 +1,13 @@
 {% extends 'bankapp/base.html' %}
 {% block title %}Delete card{% endblock %}
 {% block content %}
-    <h1>Delete card ending {{ object.card_number|slice:'-4:' }}?</h1>
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit">Delete card</button>
-        <a href="{% url 'card-list' %}">Cancel</a>
-    </form>
+    <div class="delete-confirm">
+        <h1>Delete card ending {{ object.card_number|slice:'-4:' }}?</h1>
+        <p class="warning-text">This action cannot be undone.</p>
+        <form method="post" class="delete-form">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete card</button>
+            <a href="{% url 'card-list' %}" class="btn btn-outline">Cancel</a>
+        </form>
+    </div>
 {% endblock %}

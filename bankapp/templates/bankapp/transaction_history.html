@@ -1,23 +1,43 @@
 {% extends 'bankapp/base.html' %}
 {% block title %}Transaction history{% endblock %}
 {% block content %}
-    <h1>{% if card %}Card transaction history{% else %}Transaction history{% endif %}</h1>
-    {% if card %}
-        <p>Card ending {{ card.card_number|slice:'-4:' }}</p>
-        <a href="{% url 'card-history' card.pk %}">All</a>
-        <a href="{% url 'card-history' card.pk %}?direction=sent">Sent</a>
-        <a href="{% url 'card-history' card.pk %}?direction=received">Received</a>
-    {% else %}
-        <a href="{% url 'transaction-history' %}">All</a>
-        <a href="{% url 'transaction-history' %}?direction=sent">Sent</a>
-        <a href="{% url 'transaction-history' %}?direction=received">Received</a>
-    {% endif %}
-    {% for transaction in transactions %}
-        <article>
-            <p>{{ transaction.created_at }} · {{ transaction.amount }}</p>
-            <p>From {{ transaction.sender.phone_number }} to {{ transaction.receiver.phone_number }}</p>
-        </article>
-    {% empty %}
-        <p>No transactions found.</p>
-    {% endfor %}
+    <div class="transaction-history">
+        <div class="page-header">
+            <h1>{% if card %}Card transaction history{% else %}Transaction history{% endif %}</h1>
+            {% if card %}
+                <span class="card-badge">Card ending {{ card.card_number|slice:'-4:' }}</span>
+            {% endif %}
+        </div>
+        
+        <div class="filter-tabs">
+            {% if card %}
+                <a href="{% url 'card-history' card.pk %}" class="filter-tab {% if not direction %}active{% endif %}">All</a>
+                <a href="{% url 'card-history' card.pk %}?direction=sent" class="filter-tab {% if direction == 'sent' %}active{% endif %}">Sent</a>
+                <a href="{% url 'card-history' card.pk %}?direction=received" class="filter-tab {% if direction == 'received' %}active{% endif %}">Received</a>
+            {% else %}
+                <a href="{% url 'transaction-history' %}" class="filter-tab {% if not direction %}active{% endif %}">All</a>
+                <a href="{% url 'transaction-history' %}?direction=sent" class="filter-tab {% if direction == 'sent' %}active{% endif %}">Sent</a>
+                <a href="{% url 'transaction-history' %}?direction=received" class="filter-tab {% if direction == 'received' %}active{% endif %}">Received</a>
+            {% endif %}
+        </div>
+        
+        <div class="transactions-list">
+            {% for transaction in transactions %}
+                <article class="transaction-item">
+                    <div class="transaction-header">
+                        <span class="transaction-amount">{{ transaction.amount }}</span>
+                        <span class="transaction-date">{{ transaction.created_at }}</span>
+                    </div>
+                    <div class="transaction-details">
+                        <span class="transaction-sender">From: {{ transaction.sender.phone_number }}</span>
+                        <span class="transaction-receiver">To: {{ transaction.receiver.phone_number }}</span>
+                    </div>
+                </article>
+            {% empty %}
+                <div class="empty-state">
+                    <p>No transactions found.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

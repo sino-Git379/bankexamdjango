@@ -1,17 +1,33 @@
 {% extends 'bankapp/base.html' %}
 {% block title %}Your cards{% endblock %}
 {% block content %}
-    <h1>Your cards</h1>
-    <p><a href="{% url 'card-create' %}">Create card</a></p>
-    {% for card in cards %}
-        <article>
-            <h2>Card ending {{ card.card_number|slice:'-4:' }}</h2>
-            <p>{{ card.get_type_display }} · {{ card.balance }}</p>
-            <a href="{% url 'card-detail' card.pk %}">Details</a>
-            <a href="{% url 'card-update' card.pk %}">Edit</a>
-            <a href="{% url 'card-delete' card.pk %}">Delete</a>
-        </article>
-    {% empty %}
-        <p>No cards yet.</p>
-    {% endfor %}
+    <div class="page-header">
+        <h1>Your cards</h1>
+        <a href="{% url 'card-create' %}" class="btn btn-primary">Create new card</a>
+    </div>
+    
+    <div class="cards-grid">
+        {% for card in cards %}
+            <article class="card-item">
+                <div class="card-header">
+                    <h2>Card ending {{ card.card_number|slice:'-4:' }}</h2>
+                    <span class="card-type">{{ card.get_type_display }}</span>
+                </div>
+                <div class="card-balance">
+                    <span class="balance-label">Balance</span>
+                    <span class="balance-amount">{{ card.balance }}</span>
+                </div>
+                <div class="card-actions">
+                    <a href="{% url 'card-detail' card.pk %}" class="btn btn-outline">Details</a>
+                    <a href="{% url 'card-update' card.pk %}" class="btn btn-outline">Edit</a>
+                    <a href="{% url 'card-delete' card.pk %}" class="btn btn-danger">Delete</a>
+                </div>
+            </article>
+        {% empty %}
+            <div class="empty-state">
+                <p>No cards yet.</p>
+                <a href="{% url 'card-create' %}" class="btn btn-primary">Create your first card</a>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

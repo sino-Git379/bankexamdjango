@@ -1,15 +1,29 @@
 {% extends 'bankapp/base.html' %}
 {% block title %}Simple Bank{% endblock %}
 {% block content %}
-    <h1>Simple Bank</h1>
-    {% if user.is_authenticated %}
-        {% if user.account %}
-            <p>Welcome, {{ user.account.first_name }}.</p>
-            <p><a href="{% url 'account-detail' %}">Open your account</a></p>
+    <div class="hero-section">
+        <h1>Welcome to Simple Bank</h1>
+        <p class="hero-subtitle">Your trusted financial partner</p>
+        {% if user.is_authenticated %}
+            {% if user.account %}
+                <div class="welcome-card">
+                    <p>Welcome back, <strong>{{ user.account.first_name }}</strong>!</p>
+                    <a href="{% url 'account-detail' %}" class="btn btn-primary">View Account</a>
+                </div>
+            {% else %}
+                <div class="action-card">
+                    <p>Get started with your account today</p>
+                    <a href="{% url 'account-create' %}" class="btn btn-primary">Create Account</a>
+                </div>
+            {% endif %}
         {% else %}
-            <p><a href="{% url 'account-create' %}">Create your account</a></p>
+            <div class="auth-card">
+                <p>Join thousands of satisfied customers</p>
+                <div class="auth-buttons">
+                    <a href="{% url 'register' %}" class="btn btn-primary">Register</a>
+                    <a href="{% url 'login' %}" class="btn btn-outline">Log in</a>
+                </div>
+            </div>
         {% endif %}
-    {% else %}
-        <p><a href="{% url 'register' %}">Register</a> or <a href="{% url 'login' %}">log in</a>.</p>
-    {% endif %}
+    </div>
 {% endblock %}

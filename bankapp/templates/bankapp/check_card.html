@@ -1,17 +1,21 @@
 {% extends 'bankapp/base.html' %}
 {% block title %}Check card{% endblock %}
 {% block content %}
-    <h1>Check card</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Check</button>
-    </form>
-    {% if checked %}
-        {% if card %}
-            <p>{{ card.account.first_name }} {{ card.account.last_name }}</p>
-        {% else %}
-            <p>Card not found.</p>
+    <div class="form-container">
+        <h1>Check card</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Check</button>
+        </form>
+        {% if checked %}
+            <div class="result-card">
+                {% if card %}
+                    <p class="success-text">{{ card.account.first_name }} {{ card.account.last_name }}</p>
+                {% else %}
+                    <p class="error-text">Card not found.</p>
+                {% endif %}
+            </div>
         {% endif %}
-    {% endif %}
+    </div>
 {% endblock %}

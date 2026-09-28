@@ -1,12 +1,27 @@
 {% extends 'bankapp/base.html' %}
 {% block title %}Your account{% endblock %}
 {% block content %}
-    <h1>{{ account.first_name }} {{ account.last_name }}</h1>
-    <dl>
-        <dt>Address</dt><dd>{{ account.address }}</dd>
-        <dt>Passport ID</dt><dd>{{ account.passport_id }}</dd>
-        <dt>Balance</dt><dd>{{ account.balance }}</dd>
-    </dl>
-    <p><a href="{% url 'account-update' %}">Edit account details</a></p>
-    <p><a href="{% url 'card-create' %}">Create a card</a></p>
+    <div class="account-detail">
+        <h1>{{ account.first_name }} {{ account.last_name }}</h1>
+        
+        <div class="account-info">
+            <div class="info-group">
+                <label>Address</label>
+                <span>{{ account.address }}</span>
+            </div>
+            <div class="info-group">
+                <label>Passport ID</label>
+                <span>{{ account.passport_id }}</span>
+            </div>
+            <div class="info-group balance-group">
+                <label>Balance</label>
+                <span class="balance-amount">{{ account.balance }}</span>
+            </div>
+        </div>
+        
+        <div class="account-actions">
+            <a href="{% url 'account-update' %}" class="btn btn-outline">Edit account details</a>
+            <a href="{% url 'card-create' %}" class="btn btn-primary">Create a card</a>
+        </div>
+    </div>
 {% endblock %}

@@ -1,16 +1,43 @@
 {% extends 'bankapp/base.html' %}
 {% block title %}Card details{% endblock %}
 {% block content %}
-    <h1>Card ending {{ card.card_number|slice:'-4:' }}</h1>
-    <dl>
-        <dt>Number</dt><dd>{{ card.card_number }}</dd>
-        <dt>Expires</dt><dd>{{ card.date }}</dd>
-        <dt>Type</dt><dd>{{ card.get_type_display }}</dd>
-        <dt>Balance</dt><dd>{{ card.balance }}</dd>
-        <dt>CVV</dt><dd>{{ card.cvv }}</dd>
-        <dt>PIN</dt><dd>{{ card.PIN }}</dd>
-    </dl>
-    <a href="{% url 'card-update' card.pk %}">Edit</a>
-    <a href="{% url 'card-delete' card.pk %}">Delete</a>
-    <a href="{% url 'card-history' card.pk %}">Transaction history</a>
+    <div class="card-detail">
+        <div class="card-header-section">
+            <h1>Card ending {{ card.card_number|slice:'-4:' }}</h1>
+            <span class="card-type-badge">{{ card.get_type_display }}</span>
+        </div>
+        
+        <div class="card-info">
+            <div class="info-group">
+                <label>Card Number</label>
+                <span>{{ card.card_number }}</span>
+            </div>
+            <div class="info-group">
+                <label>Expires</label>
+                <span>{{ card.date }}</span>
+            </div>
+            <div class="info-group">
+                <label>Type</label>
+                <span>{{ card.get_type_display }}</span>
+            </div>
+            <div class="info-group balance-group">
+                <label>Balance</label>
+                <span class="balance-amount">{{ card.balance }}</span>
+            </div>
+            <div class="info-group">
+                <label>CVV</label>
+                <span>{{ card.cvv }}</span>
+            </div>
+            <div class="info-group">
+                <label>PIN</label>
+                <span>{{ card.PIN }}</span>
+            </div>
+        </div>
+        
+        <div class="card-actions">
+            <a href="{% url 'card-update' card.pk %}" class="btn btn-outline">Edit</a>
+            <a href="{% url 'card-delete' card.pk %}" class="btn btn-danger">Delete</a>
+            <a href="{% url 'card-history' card.pk %}" class="btn btn-primary">Transaction history</a>
+        </div>
+    </div>
 {% endblock %}
